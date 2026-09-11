@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAEPII FACE SYSTEM v3.1</title>
+<style>
+body{background:#000;color:#0f0;font-family:monospace;text-align:center}
+.camera-box{border:2px solid #0f0;padding:10px;margin:10px}
+video{width:100%;border:2px solid red}
+canvas{position:absolute;top:0;left:0}
+#container{position:relative;display:inline-block;width:100%}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+</head>
+<body>
+
+<h1>[ SYSTEM ACCESS GRANTED ]</h1>
+
+<div class="camera-box">
+<button id="startBtn">[ CLICK TO ACTIVATE CAMERA ]</button>
+<div id="container">
+<video id="video" autoplay playsinline muted></video>
+<canvas id="overlay"></canvas>
+</div>
+<p id="status">> Status: LOADING AI...</p>
+<p id="emotion">> Emotion: SCANNING</p>
+</div>
+
+<script>
+const video = document.getElementById('video');
+const canvas = document.getElementById('overlay');
+const status = document.getElementById('status');
+const emotionTxt = document.getElementById('emotion');
+
+// Load AI
+Promise.all([
+ faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights'),
+ faceapi.nets.faceExpressionNet.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights')
+]).then(()=> status.innerText = "> Status: AI READY. CLICK TO START");
+
+document.getElementById('startBtn').onclick = async ()=>{
+ const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}});
+ video.srcObject = stream;
+ video.onplay = ()=>{
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  setInterval(onPlay, 300);
+ }
+}
+
+async function onPlay(){
+ const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+.withFaceExpressions();
+ 
+ const ctx = canvas.getContext('2d');
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ 
+ if(detections.length > 0){
+  const exp = detections[0].expressions;
+  let mood = "NEUTRAL";
+  
+  if(exp.happy > 0.5) mood = "HAPPY 😁";
+  else if(exp.sad > 0.5) mood = "SAD 😢";
+  else if(exp.angry > 0.5) mood = "ANGRY 😡";
+  
+  emotionTxt.innerText = `> Emotion: ${mood}`;
+  
+  // Draw box sa mukha
+  ctx.strokeStyle = '#00ff00';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(50, 50, canvas.width-100, canvas.height-100);
+ } else {
+  emotionTxt.innerText = `> Emotion: NO FACE FOUND`;
+ }
+}
+</script>
+</body>
+</html>
