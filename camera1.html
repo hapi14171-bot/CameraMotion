@@ -49,8 +49,30 @@ document.getElementById('startBtn').onclick = async ()=>{
 }
 
 async function onPlay(){
- const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-.withFaceExpressions();
+    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+   .withFaceExpressions();
+
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    if(detections.length > 0){
+        const exp = detections[0].expressions;
+        let mood = "NEUTRAL";
+
+        if(exp.happy > 0.5) mood = "HAPPY 😁";
+        else if(exp.sad > 0.5) mood = "SAD 😢";
+        else if(exp.angry > 0.5) mood = "ANGRY 😡";
+        else if(exp.surprised > 0.8) mood = "BLINK 😉"; // DAGDAG TO PARA SA KURAP
+
+        emotionTxt.innerText = `> Emotion: ${mood}`;
+
+        // Draw box sa mukha
+        const box = detections[0].detection.box;
+        ctx.strokeStyle = '#0ff00';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(box.x, box.y, box.width, box.height); // ETO YUNG KULANG
+    }
+}
  
  const ctx = canvas.getContext('2d');
  ctx.clearRect(0,0,canvas.width,canvas.height);
