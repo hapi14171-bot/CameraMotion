@@ -79,7 +79,7 @@ async function onPlay(){
 
         // Draw box
         const box = detections[0].detection.box;
-        ctx.strokeStyle = '#0ff00';
+        ctx.strokeStyle = '#0ff00'; 
         ctx.lineWidth = 3;
         ctx.strokeRect(box.x, box.y, box.width, box.height);
     }
