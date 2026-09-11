@@ -1,1 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WATCHER PRO - MOTION COUNTER</title>
+<style>
+body{background:#000;color:#f00;text-align:center;font-family:Arial}
+#wrap{position:relative;width:100%;max-width:640px;height:480px;margin:10px auto;border:3px solid #f00}
+video,canvas{position:absolute;top:0;left:0;width:100%;height:480px}
+#alert{font-size:50px;color:#ff0;display:none;animation:blink 0.3s infinite}
+@keyframes blink{50%{opacity:0}}
+button{padding:15px 30px;background:#f00;color:#000;border:none;font-weight:bold;font-size:18px;margin:5px}
+#snapshot{border:3px solid #ff0;margin-top:10px;max-width:320px}
+#counter{font-size:30px;color:#0f0;margin:10px}
+</style>
+</head>
+<body>
+<h2>👁️ WATCHER PRO 👁️</h2>
+<div id="status">Status: SAFE</div>
+<div id="counter">MOTION COUNT: 0</div>
+<div id="alert">⚠️ MOTION DETECTED! ⚠️</div>
+<div id="wrap"><video id="video" autoplay muted playsinline></video><canvas id="canvas"></canvas></div>
+<button id="btn">CLICK TO START CAMERA</button>
+<h3>Nahuli sa camera:</h3>
+<img id="snapshot">
 
+<script>
+const video=document.getElementById('video'),
+canvas=document.getElementById('canvas'),
+btn=document.getElementById('btn'),
+status=document.getElementById('status'),
+alert=document.getElementById('alert'),
+snapshot=document.getElementById('snapshot'),
+counter=document.getElementById('counter');
+
+let previousFrame=null,alarmActive=false,motionCount=0;
+
+btn.onclick=async()=>{
+  const stream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480}});
+  video.srcObject=stream;
+  btn.style.display='none';
+  document.body.addEventListener('click', ()=>{}, {once:true});
+  detectMotion()
+}
+
+function detectMotion(){
+  const ctx=canvas.getContext('2d');
+  setInterval(()=>{
+    ctx.drawImage(video,0,0,canvas.width,canvas.height);
+    const
