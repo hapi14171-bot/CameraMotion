@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MOTION DETECTOR ALARM</title>
+<style>
+body{background:#000;color:#f00;text-align:center;font-family:Arial}
+#wrap{position:relative;width:100%;max-width:640px;height:480px;margin:10px auto;border:3px solid #f00}
+video,canvas{position:absolute;top:0;left:0;width:100%;height:480px}
+#alert{font-size:50px;color:#ff0;display:none;animation:blink 0.3s infinite}
+@keyframes blink{50%{opacity:0}}
+button{padding:15px 30px;background:#f00;color:#000;border:none;font-weight:bold;font-size:18px;margin:5px}
+</style>
+</head>
+<body>
+<h2>🚨 MOTION DETECTOR ALARM 🚨</h2>
+<div id="status">Status: SAFE</div>
+<div id="alert">⚠️ MOTION DETECTED! ⚠️</div>
+<div id="wrap"><video id="video" autoplay muted playsinline></video><canvas id="canvas"></canvas></div>
+<button id="btn">CLICK TO START CAMERA</button>
+<button id="resetBtn">RESET ALARM</button>
 
+<audio id="alarmSound" src="https://www.soundjay.com/mechanical/sounds/alarm-clock-02.mp3" loop></audio>
+<audio id="sirenSound" src="https://www.soundjay.com/misc/sounds/police-siren-1.mp3" loop></audio>
+
+<script>
+const video=document.getElementById('video'),
+canvas=document.getElementById('canvas'),
+btn=document.getElementById('btn'),
+resetBtn=document.getElementById('resetBtn'),
+status=document.getElementById('status'),
+alert=document.getElementById('alert'),
+alarmSound=document.getElementById('alarmSound'),
+sirenSound=document.getElementById('sirenSound');
+
+let previousFrame=null,alarmActive=false;
+
+btn.onclick=async()=>{
+  const stream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480}});
+  video.srcObject=stream;
+  btn.style.display='none';
+  detectMotion()
+}
+
+resetBtn.onclick=()=>{
+  alarmActive=false;
+  status.innerText="Status: SAFE";
+  alert.style.display="none";
+  alarmSound.pause(); alarmSound.currentTime=0;
+  sirenSound.pause(); sirenSound.currentTime=0;
+}
+
+function detectMotion(){
+  const ctx=canvas.getContext('2d');
+  setInterval(()=>{
+    ctx.drawImage(video,0,0,canvas.width,canvas.height);
+    const currentFrame=ctx.getImageData(0,0,canvas.width,canvas.height);
+    if(previousFrame){
+      let motion=0;
+      for(let i=0;i<currentFrame.data.length;i+=4){
+        let diff=Math.abs(currentFrame.data[i]-previousFrame.data[i]);
+        if(diff>30)motion++
+      }
+      if(motion>5000 &&!alarmActive){
+        alarmActive=true;
+        status.innerText="Status: INTRUDER!!!";
+        alert.style.display="block";
+        alarmSound.play(); // tunog ng alarm clock
+        sirenSound.play(); // tunog ng pulis siren = NOISE
+      }
+    }
+    previousFrame=currentFrame
+  },200)
+}
+</script>
+</body>
+</html>
