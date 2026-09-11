@@ -62,7 +62,7 @@ async function onPlay(){
   if(exp.happy > 0.5) mood = "HAPPY 😁";
   else if(exp.sad > 0.5) mood = "SAD 😢";
   else if(exp.angry > 0.5) mood = "ANGRY 😡";
-  
+  else if(exp.neutral > 0.8) mood = "BLINK 😉";
   emotionTxt.innerText = `> Emotion: ${mood}`;
   
   // Draw box sa mukha
