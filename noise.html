@@ -43,7 +43,17 @@ btn.onclick=async()=>{
 }
 
 resetBtn.onclick=()=>{
-  alarmActive=false;
+alarmActive=true;
+        status.innerText="Status: INTRUDER!!!";
+        alert.style.display="block";
+
+        // BEEP NA MALAKAS
+        let beep = new AudioContext();
+        let osc = beep.createOscillator();
+        osc.frequency.value = 1000;
+        osc.connect(beep.destination);
+        osc.start();
+        setTimeout(()=>osc.stop(), 2000);
   status.innerText="Status: SAFE";
   alert.style.display="none";
   alarmSound.pause(); alarmSound.currentTime=0;
