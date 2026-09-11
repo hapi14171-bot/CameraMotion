@@ -39,12 +39,49 @@ btn.onclick=async()=>{
   const stream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480}});
   video.srcObject=stream;
   btn.style.display='none';
-  document.body.addEventListener('click', ()=>{}, {once:true});
-  detectMotion()
+  detectMotion() // INUMPISAHAN AGAD
 }
 
 function detectMotion(){
   const ctx=canvas.getContext('2d');
   setInterval(()=>{
     ctx.drawImage(video,0,0,canvas.width,canvas.height);
-    const
+    const currentFrame=ctx.getImageData(0,0,canvas.width,canvas.height);
+    if(previousFrame){
+      let motion=0;
+      for(let i=0;i<currentFrame.data.length;i+=4){
+        let diff=Math.abs(currentFrame.data[i]-previousFrame.data[i]);
+        if(diff>30)motion++
+      }
+      if(motion>5000 &&!alarmActive){
+        alarmActive=true;
+        motionCount++;
+        counter.innerText = "MOTION COUNT: " + motionCount;
+        status.innerText="Status: INTRUDER!!!";
+        alert.style.display="block";
+
+        // BEEP
+        let beep = new AudioContext();
+        let osc = beep.createOscillator();
+        osc.frequency.value = 1000;
+        osc.connect(beep.destination);
+        osc.start();
+        setTimeout(()=>osc.stop(), 2000);
+
+        // PICTURE
+        snapshot.src = canvas.toDataURL('image/png');
+
+        // AUTO RESET 5 SECONDS
+        setTimeout(()=>{
+          alarmActive=false;
+          status.innerText="Status: SAFE";
+          alert.style.display="none";
+        },5000);
+      }
+    }
+    previousFrame=currentFrame
+  },200)
+}
+</script>
+</body>
+</html>
