@@ -35,8 +35,7 @@ const emotionTxt = document.getElementById('emotion');
 // Load AI
 Promise.all([
   faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights'),
-  faceapi.nets.faceExpressionNet.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights'),
-  faceapi.nets.faceLandmark68Net.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights') // DAGDAG TO
+  faceapi.nets.faceExpressionNet.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights')
 ]).then(()=> status.innerText = "> Status: AI READY. CLICK TO START");
 
 document.getElementById('startBtn').onclick = async ()=>{
