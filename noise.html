@@ -52,6 +52,12 @@ resetBtn.onclick=()=>{
 
 function detectMotion(){
   const ctx=canvas.getContext('2d');
+  
+  document.body.addEventListener('click', ()=>{
+    alarmSound.play().catch(()=>{});
+    sirenSound.play().catch(()=>{});
+  }, {once:true});
+
   setInterval(()=>{
     ctx.drawImage(video,0,0,canvas.width,canvas.height);
     const currentFrame=ctx.getImageData(0,0,canvas.width,canvas.height);
@@ -65,8 +71,8 @@ function detectMotion(){
         alarmActive=true;
         status.innerText="Status: INTRUDER!!!";
         alert.style.display="block";
-        alarmSound.play(); // tunog ng alarm clock
-        sirenSound.play(); // tunog ng pulis siren = NOISE
+        alarmSound.play()
+        sirenSound.play()
       }
     }
     previousFrame=currentFrame
