@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wawa Dam at Ilog Puray</title>
+<style>
+  *{margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif;}
+  body {background:#0a1a0f; color:#e0f2e1; overflow-x:hidden;}
+.bg-animation {position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; overflow:hidden;}
+.leaf {position:absolute; color:#4CAF50; font-size:30px; animation: fall 12s linear infinite; opacity:0.2;}
+  @keyframes fall {0% {transform: translateY(-10%) rotate(0deg);} 100% {transform: translateY(110vh) rotate(360deg);}}
+.wave {position:absolute; bottom:0; width:200%; height:100px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,0V46.29c47.79,22.2,103.59,32,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%234CAF50"/></svg>'); animation: wave 10s linear infinite;}
+  @keyframes wave {0% {transform: translateX(0);} 100% {transform: translateX(-50%);}}
+  nav {background:#0f2418; border-bottom:2px solid #4CAF50; padding:15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; position:sticky; top:0; z-index:10;}
+  nav a {color:#A5D6A7; text-decoration:none; margin:0 10px; font-size:16px; font-weight:bold; transition:0.3s;}
+  nav a:hover {color:#4CAF50; transform:scale(1.1);}
+.hero {text-align:center; padding:80px 20px; animation: fadeIn 2s;}
+  @keyframes fadeIn {from {opacity:0;} to {opacity:1;}}
+.hero h1 {font-size:45px; color:#81C784; text-shadow:0 0 20px #4CAF50; animation: glow 2s ease-in-out infinite alternate;}
+  @keyframes glow {from {text-shadow:0 0 10px #4CAF50;} to {text-shadow:0 0 30px #66BB6A;}}
+.container {max-width:1000px; margin:30px auto; padding:20px;}
+  h2 {color:#81C784; margin:20px 0; border-left:4px solid #4CAF50; padding-left:10px;}
+  p {line-height:1.8; margin:10px 0; color:#C8E6C9; font-size:17px;}
+.card {background:#0f2418; border:1px solid #4CAF50; border-radius:10px; padding:25px; margin:25px 0; box-shadow:0 0 15px rgba(76,175,80,0.2);}
+.sad-card {border:2px solid #42A5F5; background:#0d1b2a;}
+.sad-card h2 {color:#42A5F5; border-left:4px solid #42A5F5;}
+.beauty-card {border:2px solid #66BB6A; background:#0f1f13;}
+.beauty-card h2 {color:#66BB6A; border-left:4px solid #66BB6A;}
+.action-card {border:3px solid #EF5350; background:#2a0f0f;}
+.action-card h2 {color:#EF5350; border-left:4px solid #EF5350;}
+.quote-card {border:2px solid #CE93D8; background:#1a0f1f; font-style:italic; text-align:center;}
+.quote-card h2 {color:#CE93D8; border-left:4px solid #CE93D8; font-style:normal;}
+.quote {font-size:20px; color:#E1BEE7; margin:15px 0;}
+.big-text {text-align:center; font-size:35px; font-weight:bold; color:#EF5350; margin:30px 0; letter-spacing:3px; line-height:1.5;}
+.author-signature {text-align:center; margin-top:40px; padding:20px; border-top:2px dashed #4CAF50; color:#A5D6A7;}
+.author-signature h3 {color:#81C784; font-size:22px; margin-bottom:10px;}
+
+/* PINALITAN: MAS MALIIT NA PICTURE */
+.place-img {
+    width:100%; 
+    max-width: 600px; /* HINDI LALAGPAS SA 600PX */
+    height: 250px;    /* FIXED HEIGHT */
+    object-fit:cover; /* PARA DI MADISTORT */
+    border-radius:10px;
+    border:3px solid #4CAF50; 
+    margin:15px auto; /* NAKA GITNA */
+    display: block;   /* PARA MAG CENTER */
+    transition: transform 0.5s;
+  }
+.place-img:hover {transform:scale(1.03); box-shadow:0 0 25px #4CAF50;}
+
+.gallery {display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:15px;}
+.music-btn {position:fixed; bottom:20px; right:20px; z-index:100; background:#4CAF50; color:#000; border:none; border-radius:50%; width:60px; height:60px; font-size:25px; cursor:pointer; box-shadow:0 0 15px #4CAF50;}
+.login-box {background:#0f2418; border:2px solid #4CAF50; border-radius:10px; padding:30px; max-width:400px; margin:50px auto; text-align:center;}
+  input {width:90%; padding:12px; margin:10px 0; border:1px solid #4CAF50; border-radius:6px; background:#0a1a0f; color:#e0f2e1; font-size:16px;}
+  button {padding:12px 25px; margin:8px; border:none; border-radius:6px; background:#4CAF50; color:#000; font-weight:bold; cursor:pointer;}
+  button:hover {background:#66BB6A; transform:scale(1.05);}
+.logout {background:#E57373; color:white;}
+.hidden{display:none;}
+  table {width:100%; border-collapse:collapse; margin-top:15px;}
+  table, th, td {border:1px solid #4CAF50;} th, td {padding:10px; color:#C8E6C9;} th {background:#0a1a0f;}
+  footer {text-align:center; margin-top:50px; color:#78909C; border-top:1px solid #2e4a35; padding:20px;}
+</style>
+</head>
+<body>
+
+<div class="bg-animation">
+  <div class="leaf" style="left:10%;">🍃</div>
+  <div class="leaf" style="left:50%;">🍃</div>
+  <div class="wave"></div>
+</div>
+
+<button class="music-btn" onclick="toggleMusic()">🔊</button>
+<audio id="riverSound" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_d1718f2f55.mp3" type="audio/mpeg">
+</audio>
+
+<nav>
+  <div><b>🌲 WAWA DAM & ILOG PURAY</b></div>
+  <div>
+    <a href="#" onclick="showPage('home')">Home</a>
+    <a href="#" onclick="showPage('about')">Tungkol</a>
+    <a href="#" id="setNickBtn" onclick="showPage('nickname')">Set Nickname</a>
+    <a href="#" id="dashboardBtn" class="hidden" onclick="showPage('dashboard')">Gallery</a>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="container" id="home">
+  <div class="hero"><h1>Wawa Dam at Ilog Puray</h1><p>Ang likas na yaman ng Rodriguez, Rizal</p></div>
+
+  <div class="card beauty-card">
+    <h2>> Ang Ganda ng Montalban</h2>
+    <img src="ilog.html/river.jpg" class="place-img" alt="Ilog sa Montalban">
+    <p>Punong-puno ng magagandang ilog ang Montalban. Mula sa Wawa hanggang Puray, bawat liko ng ilog may kwento. Bawat bato, bawat agos, sariwang alaala.</p>
+    
+    <h2>> Ang Bundok na Bantay</h2>
+    <img src="ilog.html/tree.jpg" class="place-img" alt="Bundok sa Montalban">
+    <p>Tahimik na nakatayo ang bundok. Siya ang nagpoprotekta sa atin sa baha at nagbibigay ng sariwang hangin. Igalang natin siya.</p>
+    
+    <h2>> Ang Himig ng Ilog</h2>
+    <p>Sa umaga, ang ilog ay kumakanta. Malumanay na agos, parang bulong ng kalikasan. Dito hinuhugasan ang pagod, dito binabalik ang kapayapaan.</p>
+    <p>Ang tubig ng Wawa, malamig at malinaw. Ang hangin ng bundok, sariwa at nagpapagaling. Dito mo mararamdaman na buhay pa ang mundo.</p>
+  </div>
+
+  <div class="card quote-card">
+    <h2>> Mga Bulong ng Ilog at Bundok</h2>
+    <p class="quote">"Mahalin mo ang ilog, dahil siya ang ugat ng buhay."</p>
+    <p class="quote">"Ang bundok ay hindi pader. Siya ay yakap."</p>
+    <p class="quote">"Sa bawat patak ng ulan, may pangako ang kalikasan: Aalagaan kita kung aalagaan mo ako."</p>
+  </div>
+
+  <div class="author-signature">
+    <h3>> KAPAYAPAAN</h3>
+    <p><i>"Isang panawagan mula sa puso ng bundok"</i></p>
+    <p><i>"Para sa kalikasan, para sa bayan, para sa bukas."</i></p>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="container hidden" id="about">
+  <h1>> Tungkol sa Kalikasan</h1>
+  
+  <div class="card">
+    <h2>> Kwento ng Wawa Dam</h2>
+    <p>Ang Wawa Dam ay hindi lang dam. Siya ang buhay ng Rodriguez. Dati, dito kumukuha ng tubig ang Maynila. Ngayon, dito tayo nagpapahinga, naliligo, at nagkakaisa.</p>
+    <p>Pero napapagod na rin siya. Sa bawat quarry, sa bawat putol na puno, umiiyak ang bundok.</p>
+  </div>
+
+  <div class="card quote-card">
+    <h2>> Mga Salita mula sa Kalikasan</h2>
+    <p class="quote">"Ang bundok ay hindi ari-arian. Siya ay tahanan."</p>
+    <p class="quote">"Alagaan mo ang ilog, at aalagaan ka rin niya."</p>
+    <p class="quote">"Ang kalikasan ay hindi natin minana sa mga magulang. Hiniram lang natin sa mga anak natin."</p>
+    <p class="quote">"Huwag mong sirain ang tahanan ng tubig, dahil dun ka rin iinom."</p>
+  </div>
+
+  <div class="big-text">
+    Iligtas Ang Bundok<br>
+    Iligtas Ang Ilog<br>
+    Iligtas Ang Kinabukasan
+  </div>
+</div>
+
+<!-- SET NICKNAME -->
+<div class="container hidden" id="nickname">
+  <div class="login-box">
+    <h1>> SET NICKNAME</h1>
+    <input type="text" id="nicknameInput" placeholder="Ilagay mo nickname mo">
+    <br><button onclick="setNickname()">Pasok</button>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="container hidden" id="dashboard">
+  <h1>> Gallery at Mga Kwento</h1>
+  <p>Welcome, <span id="userNow" style="color:#81C784;"></span></p>
+  
+  <div class="card sad-card">
+    <h2>> Tuwing Umuulan sa Montalban</h2>
+    <p>Masaya ang ulan para sa iba. Pero para sa amin sa Montalban, takot ang dala nito. Tuwing bumubuhos ang malakas na ulan, lubog ang buong Montalban sa baha dahil kalbo na ang bundok.</p>
+  </div>
+
+  <div class="card action-card">
+    <h2>> PANAWAGAN: ITIGIL ANG QUARRY AT PAX SILICA!</h2>
+    <p>Nanawagan kami sa Pamahalaan at DENR: I-revoke ang permit ng mga quarry at Pax Silica</p>
+    <p><b>#ItigilAngQuarry #ItigilAngPaxSilica #SaveMontalban</b></p>
+  </div>
+</div>
+
+<footer><p>> WAWA DAM & ILOG PURAY 2026 | Mahalin at Ipaglaban ang Kalikasan 💚</p></footer>
+
+<script>
+function showPage(page) {
+  document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+  document.getElementById(page).classList.remove('hidden');
+}
+function setNickname() {
+  let u = document.getElementById('nicknameInput').value;
+  if(u === '') return alert("Maglagay ka muna nickname");
+  localStorage.setItem('loggedIn', 'true');
+  localStorage.setItem('currentUser', u);
+  document.getElementById('userNow').innerText = u;
+  document.getElementById('setNickBtn').classList.add('hidden');
+  document.getElementById('dashboardBtn').classList.remove('hidden');
+  showPage('dashboard');
+}
+function toggleMusic() {
+  let audio = document.getElementById('riverSound');
+  if(audio.paused) audio.play(); else audio.pause();
+}
+if(localStorage.getItem('loggedIn') === 'true') {
+  showPage('dashboard');
+  document.getElementById('userNow').innerText = localStorage.getItem('currentUser');
+  document.getElementById('setNickBtn').classList.add('hidden');
+  document.getElementById('dashboardBtn').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
